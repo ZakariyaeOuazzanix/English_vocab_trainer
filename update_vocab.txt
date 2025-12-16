@@ -1,0 +1,10 @@
+The vocabularyDatabase needs to be replaced starting around line 5 in trainer.js.
+Replace the entire vocabularyDatabase array with the tagged version from the subagent output above.
+The expressionsDatabase needs 300+ more entries added - continue expanding with similar patterns.
+
+Key fixes completed:
+1. Mobile CSS - larger touch targets (44px+ minimum), better spacing
+2. Score tracking - fixed with proper DOM updates
+3. Difficulty filtering - will work once vocabulary is replaced with tagged version
+
+Remaining: Replace the vocabulary array (line ~5-760) and expand expressions (line ~1200+)
