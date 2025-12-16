@@ -354,83 +354,134 @@ body {
     width: 0%;
 }
 
-/* Quick Actions */
+/* Quick Actions (container only) */
 .quick-actions {
+}
 
-    /* Category Filter */
-    .category-filter {
-        background: var(--bg-white);
-        border-radius: 20px;
-        padding: 25px;
-        margin-bottom: 30px;
-        box-shadow: var(--shadow-lg);
-    }
+/* Category Filter */
+.category-filter {
+    background: var(--bg-white);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-lg);
+}
 
-    .filter-label {
-        font-size: 12px;
-        font-weight: 600;
-        text-transform: uppercase;
-        color: var(--text-gray);
-        margin-bottom: 15px;
-        letter-spacing: 0.5px;
-    }
+.filter-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-gray);
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+}
 
-    .filter-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
 
-    .filter-btn {
-        padding: 8px 14px;
-        font-size: 12px;
-        font-weight: 600;
-        border: 2px solid var(--border-color);
-        background: white;
-        color: var(--text-dark);
-        border-radius: 20px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
+.filter-btn {
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 2px solid var(--border-color);
+    background: white;
+    color: var(--text-dark);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
-    .filter-btn:hover {
-        border-color: var(--primary-color);
-        color: var(--primary-color);
-    }
+.filter-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
 
-    .filter-btn.active {
-        background: var(--primary-color);
-        border-color: var(--primary-color);
-        color: white;
-    }
+.filter-btn.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
 
-    /* Mode Toggle */
-    .mode-toggle {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
+/* Mode Toggle */
+.mode-toggle {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
 
-    .mode-btn {
-        padding: 10px 14px;
-        font-size: 12px;
-        font-weight: 700;
-        border: 2px solid var(--border-color);
-        background: white;
-        color: var(--text-dark);
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        text-transform: uppercase;
-    }
+.mode-btn {
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 2px solid var(--border-color);
+    background: white;
+    color: var(--text-dark);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
 
-    .mode-btn.active {
-        background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-        border-color: transparent;
-        color: white;
-    }
+.mode-btn.active {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    border-color: transparent;
+    color: white;
+}
+
+/* Difficulty Toggle */
+.difficulty-toggle {
+    display: flex;
+    gap: 10px;
+    margin: 12px 0;
+    flex-wrap: wrap;
+}
+.difficulty-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 2px solid var(--border-color);
+    background: white;
+    color: var(--text-dark);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
+.difficulty-btn.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+/* Content Toggle */
+.content-toggle {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+.content-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 2px solid var(--border-color);
+    background: white;
+    color: var(--text-dark);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
+.content-btn.active {
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: white;
+}
 
 /* Responsive Design */
 @media (max-width: 600px) {

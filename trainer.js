@@ -778,6 +778,8 @@ let appState = {
     revealed: {},
     mode: "fr-en", // or "en-fr"
     category: "all",
+    difficulty: "easy", // easy | medium | hard
+    contentType: "words", // words | expressions
 };
 
 // ============================================================================
@@ -787,6 +789,7 @@ let appState = {
 const elements = {
     frenchWord: document.getElementById("frenchWord"),
     englishInput: document.getElementById("englishInput"),
+    speakBtn: document.getElementById("speakBtn"),
     revealBtn: document.getElementById("revealBtn"),
     nextBtn: document.getElementById("nextBtn"),
     prevBtn: document.getElementById("prevBtn"),
@@ -822,8 +825,10 @@ function initializeApp() {
 }
 
 function attachEventListeners() {
-    elements.englishInput.addEventListener("keypress", (e) => {
+    // Enter on keydown (more reliable than keypress)
+    elements.englishInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
+            e.preventDefault();
             checkAnswer();
         }
     });
@@ -831,6 +836,9 @@ function attachEventListeners() {
     elements.englishInput.addEventListener("input", clearFeedback);
 
     elements.revealBtn.addEventListener("click", revealAnswer);
+    if (elements.speakBtn) {
+        elements.speakBtn.addEventListener("click", speakCurrent);
+    }
     elements.nextBtn.addEventListener("click", nextWord);
     elements.prevBtn.addEventListener("click", previousWord);
     elements.resetBtn.addEventListener("click", resetTrainer);
@@ -850,6 +858,35 @@ function attachEventListeners() {
             appState.mode = mode;
             saveState();
             displayWord();
+        });
+    });
+
+    // Difficulty toggle
+    document.querySelectorAll(".difficulty-btn").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+            document.querySelectorAll(".difficulty-btn").forEach((b) => b.classList.remove("active"));
+            const diff = e.currentTarget.dataset.difficulty;
+            e.currentTarget.classList.add("active");
+            appState.difficulty = diff;
+            // re-apply filtering chain
+            applyCategory(appState.category);
+            appState.currentIndex = 0;
+            displayWord();
+            saveState();
+        });
+    });
+
+    // Content toggle
+    document.querySelectorAll(".content-btn").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+            document.querySelectorAll(".content-btn").forEach((b) => b.classList.remove("active"));
+            const content = e.currentTarget.dataset.content;
+            e.currentTarget.classList.add("active");
+            appState.contentType = content;
+            applyCategory(appState.category);
+            appState.currentIndex = 0;
+            displayWord();
+            saveState();
         });
     });
 
@@ -878,10 +915,13 @@ function displayWord() {
     const promptLabel = document.getElementById("promptLabel");
     const inputLabel = document.getElementById("inputLabel");
     if (promptLabel && inputLabel) {
-        promptLabel.textContent = isFREn ? "French Word" : "English Word";
+        const isExpr = appState.contentType === "expressions";
+        promptLabel.textContent = isFREn
+            ? isExpr ? "French Expression" : "French Word"
+            : isExpr ? "English Expression" : "English Word";
         inputLabel.textContent = isFREn
-            ? "Type the English translation"
-            : "Tapez la traduction en français";
+            ? (isExpr ? "Type the English expression" : "Type the English translation")
+            : (isExpr ? "Tapez l'expression en français" : "Tapez la traduction en français");
     }
     hideAnswer();
     clearFeedback();
@@ -890,10 +930,35 @@ function displayWord() {
     updateProgressBar();
 }
 
+// ============================================================================
+// VOICE: speechSynthesis with basic fallback
+// ============================================================================
+
+function speakCurrent() {
+    const word = appState.vocabulary[appState.currentIndex];
+    const isFREn = appState.mode === "fr-en";
+    const text = isFREn ? (Array.isArray(word.english) ? word.english[0] : word.english) : word.french;
+    const lang = isFREn ? "en-US" : "fr-FR";
+
+    if (window.speechSynthesis) {
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = lang;
+        // try pick a matching voice if available
+        const voices = window.speechSynthesis.getVoices();
+        const match = voices.find((v) => v.lang.toLowerCase().startsWith(lang.toLowerCase()));
+        if (match) utter.voice = match;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utter);
+    } else {
+        showFeedback(false, "🔇 Speech not supported in this browser.");
+    }
+}
+
 function hideAnswer() {
     elements.answerSection.classList.add("hidden");
     elements.correctAnswers.innerHTML = "";
     appState.revealed[appState.currentIndex] = false;
+    if (elements.revealBtn) elements.revealBtn.style.opacity = "1";
 }
 
 function revealAnswer() {
@@ -943,7 +1008,8 @@ function normalizeText(s) {
 }
 
 function checkAnswer() {
-    const word = appState.vocabulary[appState.currentIndex];
+    const idx = appState.currentIndex;
+    const word = appState.vocabulary[idx];
     const userAnswerRaw = elements.englishInput.value;
     const userAnswer = normalizeText(userAnswerRaw);
 
@@ -959,9 +1025,12 @@ function checkAnswer() {
     // exact match on normalized answers
     const isCorrect = normalizedAnswers.includes(userAnswer);
 
+    const alreadyCorrect = Boolean(appState.answered[idx]?.correct);
     if (isCorrect) {
-        appState.score++;
-        showFeedback(true, "✨ Excellent! You got it right!");
+        if (!alreadyCorrect) {
+            appState.score++;
+        }
+        showFeedback(true, alreadyCorrect ? "✅ Already correct for this item." : "✨ Excellent! You got it right!");
     } else {
         const solution = isFREn ? word.english.join(" / ") : word.french;
         showFeedback(false, `❌ Not quite. The answer is: ${solution}`);
@@ -969,8 +1038,8 @@ function checkAnswer() {
         elements.answerSection.classList.remove("hidden");
     }
 
-    appState.answered[appState.currentIndex] = {
-        correct: isCorrect,
+    appState.answered[idx] = {
+        correct: isCorrect || alreadyCorrect,
         userAnswer: userAnswerRaw,
         timestamp: new Date(),
         modeTried: appState.mode,
@@ -1044,6 +1113,8 @@ function saveState() {
             score: appState.score,
             category: appState.category,
             mode: appState.mode,
+            difficulty: appState.difficulty,
+            contentType: appState.contentType,
         };
         localStorage.setItem("vocab_trainer_state", JSON.stringify(state));
     } catch (e) {}
@@ -1059,6 +1130,8 @@ function loadState() {
             appState.score = state.score || 0;
             appState.category = state.category || "all";
             appState.mode = state.mode || "fr-en";
+            appState.difficulty = state.difficulty || "easy";
+            appState.contentType = state.contentType || "words";
         }
         // reflect mode buttons
         updateModeUI();
@@ -1066,6 +1139,9 @@ function loadState() {
         document
             .querySelectorAll(".filter-btn")
             .forEach((b) => b.classList.toggle("active", b.dataset.category === appState.category || (appState.category === "all" && b.dataset.category === "all")));
+        // reflect difficulty and content buttons
+        document.querySelectorAll(".difficulty-btn").forEach((b) => b.classList.toggle("active", b.dataset.difficulty === appState.difficulty));
+        document.querySelectorAll(".content-btn").forEach((b) => b.classList.toggle("active", b.dataset.content === appState.contentType));
     } catch (e) {}
 }
 
@@ -1126,14 +1202,248 @@ function showSessionComplete() {
 // ============================================================================
 
 function applyCategory(category) {
-    const allVocab = vocabularyDatabase;
+    let base = appState.contentType === "expressions" ? expressionsDatabase : vocabularyDatabase;
     appState.category = category;
-    if (category === "all") {
-        appState.vocabulary = [...allVocab];
-    } else {
-        appState.vocabulary = allVocab.filter((word) => word.category === category);
+    // filter by category
+    base = category === "all" ? [...base] : base.filter((w) => w.category === category);
+
+    elements.hintText.textContent = "";
+
+    // Prefer explicit difficulty tag; fallback to heuristic if missing
+    function difficultyOf(w) {
+        if (w.difficulty) return w.difficulty;
+        const text = Array.isArray(w.english) ? (w.english[0] || "") : (w.english || "");
+        const len = text.length;
+        if (len <= 6) return "easy";
+        if (len <= 14) return "medium";
+        return "hard";
     }
+    const byDifficulty = base.filter((w) => difficultyOf(w) === appState.difficulty);
+    appState.vocabulary = byDifficulty.length ? byDifficulty : base;
 }
+
+// ============================================================================
+// EXPRESSIONS DATASET (initial scaffold)
+// ============================================================================
+const expressionsDatabase = [
+    // Greetings & Politeness (Easy)
+    { french: "Bonjour", english: ["Hello"], category: "smalltalk", difficulty: "easy" },
+    { french: "Bonsoir", english: ["Good evening"], category: "smalltalk", difficulty: "easy" },
+    { french: "Bonne nuit", english: ["Good night"], category: "smalltalk", difficulty: "easy" },
+    { french: "Salut", english: ["Hi", "Hey"], category: "smalltalk", difficulty: "easy" },
+    { french: "Comment ça va ?", english: ["How are you?"], category: "smalltalk", difficulty: "easy" },
+    { french: "Ça va bien, merci", english: ["I'm fine, thanks"], category: "smalltalk", difficulty: "easy" },
+    { french: "Merci beaucoup", english: ["Thank you very much"], category: "smalltalk", difficulty: "easy" },
+    { french: "De rien", english: ["You're welcome"], category: "smalltalk", difficulty: "easy" },
+    { french: "Enchanté(e)", english: ["Nice to meet you"], category: "smalltalk", difficulty: "easy" },
+    { french: "À plus tard", english: ["See you later"], category: "smalltalk", difficulty: "easy" },
+    { french: "À bientôt", english: ["See you soon"], category: "smalltalk", difficulty: "easy" },
+    { french: "Bonne journée", english: ["Have a nice day"], category: "smalltalk", difficulty: "easy" },
+
+    // Travel (Easy/Medium)
+    { french: "Où se trouve la gare ?", english: ["Where is the train station?"], category: "travel", difficulty: "easy" },
+    { french: "Combien ça coûte ?", english: ["How much does it cost?"], category: "travel", difficulty: "easy" },
+    { french: "Je voudrais réserver", english: ["I'd like to book"], category: "travel", difficulty: "medium" },
+    { french: "J'ai une réservation", english: ["I have a reservation"], category: "travel", difficulty: "medium" },
+    { french: "À quelle heure part-il ?", english: ["What time does it leave?"], category: "travel", difficulty: "medium" },
+    { french: "Je suis perdu(e)", english: ["I'm lost"], category: "travel", difficulty: "easy" },
+    { french: "Pouvez-vous m'aider ?", english: ["Can you help me?"], category: "travel", difficulty: "easy" },
+    { french: "Je cherche...", english: ["I'm looking for..."], category: "travel", difficulty: "easy" },
+
+    // Meetings & Collaboration (Medium)
+    { french: "Puis-je vous aider ?", english: ["May I help you?"], category: "meetings", difficulty: "medium" },
+    { french: "Je suis d'accord", english: ["I agree"], category: "meetings", difficulty: "medium" },
+    { french: "Je ne suis pas d'accord", english: ["I disagree"], category: "meetings", difficulty: "medium" },
+    { french: "C'est une bonne idée", english: ["That's a good idea"], category: "meetings", difficulty: "medium" },
+    { french: "Qu'en pensez-vous ?", english: ["What do you think?"], category: "meetings", difficulty: "medium" },
+    { french: "Ça me convient", english: ["That works for me"], category: "meetings", difficulty: "medium" },
+    { french: "Allons droit au but", english: ["Let's get straight to the point"], category: "meetings", difficulty: "medium" },
+    { french: "Avons-nous un consensus ?", english: ["Do we have a consensus?"], category: "meetings", difficulty: "medium" },
+    { french: "Passons à l'ordre du jour", english: ["Let's move on to the agenda"], category: "meetings", difficulty: "medium" },
+    { french: "Pouvez-vous clarifier ?", english: ["Could you clarify?"], category: "meetings", difficulty: "medium" },
+
+    // Business & Management (Medium/Hard)
+    { french: "Je vous tiendrai informé", english: ["I'll keep you posted"], category: "business", difficulty: "medium" },
+    { french: "Nous respecterons les délais", english: ["We'll meet the deadline"], category: "business", difficulty: "medium" },
+    { french: "C'est hors budget", english: ["It's over budget"], category: "business", difficulty: "medium" },
+    { french: "C'est dans le périmètre", english: ["It's within scope"], category: "business", difficulty: "hard" },
+    { french: "Hors du périmètre", english: ["Out of scope"], category: "business", difficulty: "hard" },
+    { french: "Analyse des risques", english: ["Risk analysis"], category: "business", difficulty: "hard" },
+    { french: "Plan d'atténuation", english: ["Mitigation plan"], category: "business", difficulty: "hard" },
+    { french: "Étude de faisabilité", english: ["Feasibility study"], category: "business", difficulty: "hard" },
+    { french: "Mise en œuvre", english: ["Implementation"], category: "business", difficulty: "hard" },
+
+    // Tech (Medium)
+    { french: "Ça fonctionne comme prévu", english: ["It works as expected"], category: "tech", difficulty: "medium" },
+    { french: "Pouvez-vous reproduire le bug ?", english: ["Can you reproduce the bug?"], category: "tech", difficulty: "medium" },
+    { french: "Corriger le bug", english: ["Fix the bug"], category: "tech", difficulty: "medium" },
+    { french: "Publier une mise à jour", english: ["Release an update"], category: "tech", difficulty: "medium" },
+    { french: "Tester la fonctionnalité", english: ["Test the feature"], category: "tech", difficulty: "medium" },
+
+    // Small Talk & Idioms (Hard)
+    { french: "Pour faire court", english: ["To cut a long story short"], category: "smalltalk", difficulty: "hard" },
+    { french: "C'est du gâteau", english: ["It's a piece of cake"], category: "smalltalk", difficulty: "hard" },
+    { french: "Être au courant", english: ["To be in the loop"], category: "smalltalk", difficulty: "hard" },
+    { french: "Jouer franc-jeu", english: ["To play it straight"], category: "smalltalk", difficulty: "hard" },
+    { french: "Mettre les points sur les i", english: ["To dot the i's and cross the t's"], category: "smalltalk", difficulty: "hard" },
+
+    // General Connectors (Medium)
+    { french: "À titre de précaution", english: ["As a precaution"], category: "general", difficulty: "medium" },
+    { french: "Au cas où", english: ["Just in case"], category: "general", difficulty: "medium" },
+    { french: "Par conséquent", english: ["Consequently"], category: "general", difficulty: "hard" },
+    { french: "En revanche", english: ["On the other hand"], category: "general", difficulty: "hard" },
+    { french: "Dans l'ensemble", english: ["Overall"], category: "general", difficulty: "medium" },
+
+    // Clarifications & Requests (Easy/Medium)
+    { french: "Pouvez-vous répéter ?", english: ["Could you repeat?"], category: "meetings", difficulty: "easy" },
+    { french: "Parlez plus lentement, s'il vous plaît", english: ["Please speak more slowly"], category: "meetings", difficulty: "easy" },
+    { french: "Pourriez-vous préciser ?", english: ["Could you be more specific?"], category: "meetings", difficulty: "medium" },
+
+    // Travel practical
+    { french: "Je voudrais payer en espèces", english: ["I'd like to pay in cash"], category: "travel", difficulty: "medium" },
+    { french: "Acceptez-vous les cartes ?", english: ["Do you accept cards?"], category: "travel", difficulty: "medium" },
+    { french: "J'ai besoin d'un reçu", english: ["I need a receipt"], category: "travel", difficulty: "medium" },
+
+    // Scheduling
+    { french: "Fixons un rendez-vous", english: ["Let's schedule a meeting"], category: "meetings", difficulty: "medium" },
+    { french: "Quelle heure vous convient ?", english: ["What time works for you?"], category: "meetings", difficulty: "medium" },
+    { french: "Je suis disponible demain", english: ["I'm available tomorrow"], category: "meetings", difficulty: "easy" },
+
+    // Apologies & Thanks
+    { french: "Je suis désolé(e)", english: ["I'm sorry"], category: "smalltalk", difficulty: "easy" },
+    { french: "Merci pour votre aide", english: ["Thank you for your help"], category: "smalltalk", difficulty: "easy" },
+    { french: "Je vous en prie", english: ["Don't mention it"], category: "smalltalk", difficulty: "medium" },
+
+    // Confirmations
+    { french: "C'est confirmé", english: ["It's confirmed"], category: "business", difficulty: "easy" },
+    { french: "Nous sommes d'accord", english: ["We are on the same page"], category: "meetings", difficulty: "hard" },
+    { french: "C'est réglé", english: ["It's settled"], category: "business", difficulty: "medium" },
+
+    // Presentations
+    { french: "Passons à la diapositive suivante", english: ["Let's move to the next slide"], category: "presentations", difficulty: "medium" },
+    { french: "Comme vous pouvez le voir", english: ["As you can see"], category: "presentations", difficulty: "medium" },
+    { french: "En résumé", english: ["To sum up"], category: "presentations", difficulty: "medium" },
+    { french: "Pour conclure", english: ["To conclude"], category: "presentations", difficulty: "medium" },
+    { french: "Permettez-moi d'ajouter", english: ["Allow me to add"], category: "presentations", difficulty: "medium" },
+    { french: "Passons maintenant à", english: ["Let's now move on to"], category: "presentations", difficulty: "medium" },
+
+    // Hard connectors & idioms
+    { french: "C'est hors de ma portée", english: ["It's beyond my reach"], category: "general", difficulty: "hard" },
+    { french: "Cela va sans dire", english: ["It goes without saying"], category: "general", difficulty: "hard" },
+    { french: "À toutes fins utiles", english: ["For all intents and purposes"], category: "general", difficulty: "hard" },
+
+    // More Business & Management
+    { french: "Gérer les priorités", english: ["Manage priorities"], category: "business", difficulty: "medium" },
+    { french: "Respecter un échéancier", english: ["Meet a schedule"], category: "business", difficulty: "medium" },
+    { french: "Atteindre les objectifs", english: ["Achieve the goals"], category: "business", difficulty: "medium" },
+    { french: "Suivi du projet", english: ["Project tracking"], category: "business", difficulty: "medium" },
+    { french: "Point d'étape", english: ["Milestone"], category: "business", difficulty: "hard" },
+    { french: "Retour sur investissement", english: ["Return on investment"], category: "business", difficulty: "hard" },
+    { french: "Valeur ajoutée", english: ["Added value"], category: "business", difficulty: "hard" },
+    { french: "Meilleure pratique", english: ["Best practice"], category: "business", difficulty: "medium" },
+    { french: "À court terme", english: ["Short-term"], category: "business", difficulty: "easy" },
+    { french: "À long terme", english: ["Long-term"], category: "business", difficulty: "easy" },
+
+    // More Tech expressions
+    { french: "Mettre à jour le système", english: ["Update the system"], category: "tech", difficulty: "medium" },
+    { french: "Sauvegarder les données", english: ["Back up the data"], category: "tech", difficulty: "medium" },
+    { french: "Restaurer à partir d'une sauvegarde", english: ["Restore from a backup"], category: "tech", difficulty: "hard" },
+    { french: "Le système est en panne", english: ["The system is down"], category: "tech", difficulty: "easy" },
+    { french: "Redémarrer le serveur", english: ["Restart the server"], category: "tech", difficulty: "medium" },
+    { french: "Optimiser les performances", english: ["Optimize performance"], category: "tech", difficulty: "hard" },
+    { french: "Déployer une nouvelle version", english: ["Deploy a new version"], category: "tech", difficulty: "hard" },
+    { french: "Corriger une erreur", english: ["Fix an error"], category: "tech", difficulty: "medium" },
+
+    // Mining & Engineering expressions
+    { french: "Respecter les normes de sécurité", english: ["Comply with safety standards"], category: "mining", difficulty: "hard" },
+    { french: "Inspection de routine", english: ["Routine inspection"], category: "engineering", difficulty: "medium" },
+    { french: "Arrêt d'urgence", english: ["Emergency shutdown"], category: "engineering", difficulty: "medium" },
+    { french: "Mise en marche", english: ["Start-up"], category: "engineering", difficulty: "medium" },
+    { french: "Procédure de sécurité", english: ["Safety procedure"], category: "mining", difficulty: "medium" },
+    { french: "Équipement de protection", english: ["Protection equipment"], category: "mining", difficulty: "medium" },
+    { french: "Zone à risque", english: ["Hazard zone"], category: "mining", difficulty: "hard" },
+    { french: "Contrôle de qualité", english: ["Quality control"], category: "engineering", difficulty: "medium" },
+
+    // Daily life & general expressions
+    { french: "C'est à vous de décider", english: ["It's up to you"], category: "general", difficulty: "medium" },
+    { french: "Ça dépend", english: ["It depends"], category: "general", difficulty: "easy" },
+    { french: "Prenez votre temps", english: ["Take your time"], category: "general", difficulty: "easy" },
+    { french: "Dépêchez-vous", english: ["Hurry up"], category: "general", difficulty: "easy" },
+    { french: "Pas de problème", english: ["No problem"], category: "general", difficulty: "easy" },
+    { french: "Bien sûr", english: ["Of course"], category: "general", difficulty: "easy" },
+    { french: "Sans aucun doute", english: ["Without a doubt"], category: "general", difficulty: "medium" },
+    { french: "Je n'en suis pas sûr(e)", english: ["I'm not sure about it"], category: "general", difficulty: "easy" },
+    { french: "Si je ne me trompe pas", english: ["If I'm not mistaken"], category: "general", difficulty: "medium" },
+    { french: "Autant que je sache", english: ["As far as I know"], category: "general", difficulty: "medium" },
+
+    // Travel & directions
+    { french: "Tournez à gauche", english: ["Turn left"], category: "travel", difficulty: "easy" },
+    { french: "Tournez à droite", english: ["Turn right"], category: "travel", difficulty: "easy" },
+    { french: "Allez tout droit", english: ["Go straight ahead"], category: "travel", difficulty: "easy" },
+    { french: "C'est à quelle distance ?", english: ["How far is it?"], category: "travel", difficulty: "easy" },
+    { french: "À pied ou en voiture ?", english: ["On foot or by car?"], category: "travel", difficulty: "easy" },
+    { french: "Où puis-je prendre le bus ?", english: ["Where can I catch the bus?"], category: "travel", difficulty: "easy" },
+    { french: "Quel est le chemin le plus court ?", english: ["What's the shortest way?"], category: "travel", difficulty: "medium" },
+
+    // Meetings & collaboration extended
+    { french: "Revenons au sujet", english: ["Let's get back on topic"], category: "meetings", difficulty: "medium" },
+    { french: "Avez-vous des questions ?", english: ["Do you have any questions?"], category: "meetings", difficulty: "easy" },
+    { french: "Je voudrais proposer", english: ["I'd like to suggest"], category: "meetings", difficulty: "medium" },
+    { french: "Pouvons-nous reporter ?", english: ["Can we postpone?"], category: "meetings", difficulty: "medium" },
+    { french: "Passons au vote", english: ["Let's vote on it"], category: "meetings", difficulty: "medium" },
+    { french: "Levée de séance", english: ["Meeting adjourned"], category: "meetings", difficulty: "hard" },
+    { french: "Ordre du jour", english: ["Agenda"], category: "meetings", difficulty: "medium" },
+    { french: "Procès-verbal", english: ["Minutes"], category: "meetings", difficulty: "hard" },
+
+    // Economy & finance expressions
+    { french: "Taux de change", english: ["Exchange rate"], category: "economy", difficulty: "medium" },
+    { french: "Taux d'intérêt", english: ["Interest rate"], category: "economy", difficulty: "medium" },
+    { french: "Fluctuation du marché", english: ["Market fluctuation"], category: "economy", difficulty: "hard" },
+    { french: "Cours de la bourse", english: ["Stock price"], category: "economy", difficulty: "hard" },
+    { french: "Investissement rentable", english: ["Profitable investment"], category: "economy", difficulty: "hard" },
+    { french: "Bilan financier", english: ["Financial statement"], category: "economy", difficulty: "hard" },
+    { french: "Chiffre d'affaires", english: ["Revenue", "Turnover"], category: "economy", difficulty: "hard" },
+
+    // Small talk extended
+    { french: "Comment allez-vous ?", english: ["How are you doing?"], category: "smalltalk", difficulty: "easy" },
+    { french: "Quoi de neuf ?", english: ["What's new?"], category: "smalltalk", difficulty: "easy" },
+    { french: "Rien de spécial", english: ["Nothing special"], category: "smalltalk", difficulty: "easy" },
+    { french: "Ça pourrait être pire", english: ["It could be worse"], category: "smalltalk", difficulty: "medium" },
+    { french: "Tant mieux", english: ["So much the better"], category: "smalltalk", difficulty: "medium" },
+    { french: "Tant pis", english: ["Too bad"], category: "smalltalk", difficulty: "medium" },
+    { french: "C'est dommage", english: ["That's a shame"], category: "smalltalk", difficulty: "easy" },
+    { french: "Félicitations", english: ["Congratulations"], category: "smalltalk", difficulty: "easy" },
+    { french: "Bon courage", english: ["Good luck", "Hang in there"], category: "smalltalk", difficulty: "easy" },
+    { french: "Profitez-en bien", english: ["Enjoy it"], category: "smalltalk", difficulty: "easy" },
+
+    // More business idioms
+    { french: "Coûte que coûte", english: ["At all costs"], category: "business", difficulty: "hard" },
+    { french: "Dans les temps", english: ["On time"], category: "business", difficulty: "medium" },
+    { french: "En retard", english: ["Behind schedule"], category: "business", difficulty: "easy" },
+    { french: "En avance", english: ["Ahead of schedule"], category: "business", difficulty: "medium" },
+    { french: "Passer à l'action", english: ["Take action"], category: "business", difficulty: "medium" },
+    { french: "Prendre une décision", english: ["Make a decision"], category: "business", difficulty: "easy" },
+    { french: "Tenir ses engagements", english: ["Keep one's commitments"], category: "business", difficulty: "hard" },
+
+    // Additional general connectors
+    { french: "D'une part... d'autre part", english: ["On one hand... on the other hand"], category: "general", difficulty: "hard" },
+    { french: "Tout d'abord", english: ["First of all"], category: "general", difficulty: "medium" },
+    { french: "Ensuite", english: ["Then", "Next"], category: "general", difficulty: "easy" },
+    { french: "Enfin", english: ["Finally"], category: "general", difficulty: "easy" },
+    { french: "En conclusion", english: ["In conclusion"], category: "general", difficulty: "medium" },
+    { french: "Par ailleurs", english: ["Moreover", "Besides"], category: "general", difficulty: "hard" },
+    { french: "Néanmoins", english: ["Nevertheless"], category: "general", difficulty: "hard" },
+    { french: "Toutefois", english: ["However"], category: "general", difficulty: "hard" },
+    { french: "En effet", english: ["Indeed"], category: "general", difficulty: "medium" },
+    { french: "C'est-à-dire", english: ["That is to say"], category: "general", difficulty: "medium" },
+
+    // Questions & clarifications
+    { french: "Que voulez-vous dire ?", english: ["What do you mean?"], category: "meetings", difficulty: "easy" },
+    { french: "Pouvez-vous expliquer ?", english: ["Can you explain?"], category: "meetings", difficulty: "easy" },
+    { french: "Je ne comprends pas", english: ["I don't understand"], category: "general", difficulty: "easy" },
+    { french: "Comment dit-on... en anglais ?", english: ["How do you say... in English?"], category: "general", difficulty: "easy" },
+    { french: "Pouvez-vous épeler ?", english: ["Can you spell it?"], category: "general", difficulty: "easy" },
+];
 
 function filterByCategory(e) {
     const category = e.target.dataset.category;
