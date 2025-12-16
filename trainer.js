@@ -3,265 +3,259 @@
 // ============================================================================
 
 const vocabularyDatabase = [
-    // Daily - Common A2-B1 Level
-    { french: "Oui", english: ["Yes"], category: "daily", difficulty: "easy" },
-    { french: "Non", english: ["No"], category: "daily", difficulty: "easy" },
-    { french: "Merci", english: ["Thank you", "Thanks"], category: "daily", difficulty: "easy" },
-    { french: "Bonjour", english: ["Hello", "Good morning"], category: "daily", difficulty: "easy" },
-    { french: "Au revoir", english: ["Goodbye", "Bye"], category: "daily", difficulty: "easy" },
+    // Daily - Common A2-B1 Level (basic greetings removed)
     { french: "S'il vous plaît", english: ["Please"], category: "daily", difficulty: "medium" },
     { french: "Excusez-moi", english: ["Excuse me", "Sorry"], category: "daily", difficulty: "medium" },
-    { french: "De rien", english: ["You're welcome"], category: "daily", difficulty: "easy" },
     { french: "Bienvenue", english: ["Welcome"], category: "daily", difficulty: "medium" },
     { french: "À bientôt", english: ["See you soon"], category: "daily", difficulty: "easy" },
-    { french: "Comment allez-vous?", english: ["How are you?"], category: "daily" },
-    { french: "Ça va?", english: ["How are you?", "How's it going?"], category: "daily" },
-    { french: "Bien", english: ["Well", "Good", "Fine"], category: "daily" },
-    { french: "Mal", english: ["Bad", "Badly", "Poor"], category: "daily" },
-    { french: "Jour", english: ["Day"], category: "daily" },
-    { french: "Nuit", english: ["Night"], category: "daily" },
-    { french: "Matin", english: ["Morning"], category: "daily" },
-    { french: "Après-midi", english: ["Afternoon"], category: "daily" },
-    { french: "Soir", english: ["Evening"], category: "daily" },
-    { french: "Semaine", english: ["Week"], category: "daily" },
-    { french: "Mois", english: ["Month"], category: "daily" },
-    { french: "Année", english: ["Year"], category: "daily" },
-    { french: "Hier", english: ["Yesterday"], category: "daily" },
-    { french: "Aujourd'hui", english: ["Today"], category: "daily" },
-    { french: "Demain", english: ["Tomorrow"], category: "daily" },
-    { french: "Maison", english: ["House", "Home"], category: "daily" },
-    { french: "Bureau", english: ["Office", "Desk"], category: "daily" },
-    { french: "École", english: ["School"], category: "daily" },
-    { french: "Restaurant", english: ["Restaurant"], category: "daily" },
-    { french: "Hôtel", english: ["Hotel"], category: "daily" },
-    { french: "Gare", english: ["Train station"], category: "daily" },
-    { french: "Aéroport", english: ["Airport"], category: "daily" },
-    { french: "Rue", english: ["Street"], category: "daily" },
-    { french: "Route", english: ["Road", "Way"], category: "daily" },
-    { french: "Ville", english: ["City", "Town"], category: "daily" },
-    { french: "Pays", english: ["Country"], category: "daily" },
-    { french: "Eau", english: ["Water"], category: "daily" },
-    { french: "Pain", english: ["Bread"], category: "daily" },
-    { french: "Lait", english: ["Milk"], category: "daily" },
-    { french: "Fromage", english: ["Cheese"], category: "daily" },
-    { french: "Viande", english: ["Meat"], category: "daily" },
-    { french: "Poisson", english: ["Fish"], category: "daily" },
-    { french: "Légume", english: ["Vegetable"], category: "daily" },
-    { french: "Fruit", english: ["Fruit"], category: "daily" },
-    { french: "Café", english: ["Coffee"], category: "daily" },
-    { french: "Thé", english: ["Tea"], category: "daily" },
-    { french: "Vin", english: ["Wine"], category: "daily" },
-    { french: "Bière", english: ["Beer"], category: "daily" },
-    { french: "Assiette", english: ["Plate", "Dish"], category: "daily" },
-    { french: "Verre", english: ["Glass"], category: "daily" },
-    { french: "Cuillère", english: ["Spoon"], category: "daily" },
-    { french: "Fourchette", english: ["Fork"], category: "daily" },
-    { french: "Couteau", english: ["Knife"], category: "daily" },
-    { french: "Voiture", english: ["Car", "Vehicle"], category: "daily" },
-    { french: "Vélo", english: ["Bicycle", "Bike"], category: "daily" },
-    { french: "Bus", english: ["Bus", "Coach"], category: "daily" },
-    { french: "Train", english: ["Train"], category: "daily" },
-    { french: "Avion", english: ["Airplane", "Plane"], category: "daily" },
-    { french: "Bateau", english: ["Boat", "Ship"], category: "daily" },
-    { french: "Taxi", english: ["Taxi"], category: "daily" },
-    { french: "Chat", english: ["Cat"], category: "daily" },
-    { french: "Chien", english: ["Dog"], category: "daily" },
-    { french: "Oiseau", english: ["Bird"], category: "daily" },
-    { french: "Arbre", english: ["Tree"], category: "daily" },
-    { french: "Fleur", english: ["Flower"], category: "daily" },
-    { french: "Montagne", english: ["Mountain"], category: "daily" },
-    { french: "Fleuve", english: ["River"], category: "daily" },
-    { french: "Mer", english: ["Sea"], category: "daily" },
-    { french: "Plage", english: ["Beach"], category: "daily" },
-    { french: "Soleil", english: ["Sun", "Sunshine"], category: "daily" },
-    { french: "Lune", english: ["Moon"], category: "daily" },
-    { french: "Étoile", english: ["Star"], category: "daily" },
-    { french: "Pluie", english: ["Rain"], category: "daily" },
-    { french: "Neige", english: ["Snow"], category: "daily" },
-    { french: "Vent", english: ["Wind"], category: "daily" },
-    { french: "Orage", english: ["Storm", "Thunderstorm"], category: "daily" },
-    { french: "Chaud", english: ["Hot", "Warm"], category: "daily" },
-    { french: "Froid", english: ["Cold"], category: "daily" },
-    { french: "Humide", english: ["Wet", "Damp"], category: "daily" },
-    { french: "Sec", english: ["Dry"], category: "daily" },
-    { french: "Grand", english: ["Big", "Large"], category: "daily" },
-    { french: "Petit", english: ["Small", "Little"], category: "daily" },
-    { french: "Long", english: ["Long"], category: "daily" },
-    { french: "Court", english: ["Short"], category: "daily" },
-    { french: "Épais", english: ["Thick"], category: "daily" },
-    { french: "Mince", english: ["Thin"], category: "daily" },
-    { french: "Lourd", english: ["Heavy"], category: "daily" },
-    { french: "Léger", english: ["Light"], category: "daily" },
-    { french: "Fort", english: ["Strong"], category: "daily" },
-    { french: "Faible", english: ["Weak"], category: "daily" },
-    { french: "Rapide", english: ["Fast", "Quick"], category: "daily" },
-    { french: "Lent", english: ["Slow"], category: "daily" },
-    { french: "Cher", english: ["Expensive"], category: "daily" },
-    { french: "Bon marché", english: ["Cheap"], category: "daily" },
-    { french: "Nouveau", english: ["New"], category: "daily" },
-    { french: "Vieux", english: ["Old"], category: "daily" },
-    { french: "Jeune", english: ["Young"], category: "daily" },
-    { french: "Beau", english: ["Beautiful", "Pretty"], category: "daily" },
-    { french: "Laid", english: ["Ugly"], category: "daily" },
-    { french: "Propre", english: ["Clean"], category: "daily" },
-    { french: "Sale", english: ["Dirty", "Filthy"], category: "daily" },
-    { french: "Heureux", english: ["Happy", "Glad"], category: "daily" },
-    { french: "Triste", english: ["Sad"], category: "daily" },
-    { french: "En colère", english: ["Angry"], category: "daily" },
-    { french: "Fatigué", english: ["Tired", "Weary"], category: "daily" },
-    { french: "Endormi", english: ["Sleepy"], category: "daily" },
-    { french: "Éveillé", english: ["Awake"], category: "daily" },
-    { french: "Malade", english: ["Sick", "Ill"], category: "daily" },
-    { french: "Sain", english: ["Healthy"], category: "daily" },
-    { french: "Pain d'épice", english: ["Gingerbread"], category: "daily" },
-    { french: "Chocolat", english: ["Chocolate"], category: "daily" },
-    { french: "Sucre", english: ["Sugar"], category: "daily" },
-    { french: "Sel", english: ["Salt"], category: "daily" },
-    { french: "Poivre", english: ["Pepper"], category: "daily" },
-    { french: "Huile", english: ["Oil"], category: "daily" },
-    { french: "Beurre", english: ["Butter"], category: "daily" },
-    { french: "Oeuf", english: ["Egg"], category: "daily" },
-    { french: "Farine", english: ["Flour"], category: "daily" },
+    { french: "Comment allez-vous?", english: ["How are you?"], category: "daily", difficulty: "easy" },
+    { french: "Ça va?", english: ["How are you?", "How's it going?"], category: "daily", difficulty: "easy" },
+    { french: "Bien", english: ["Well", "Good", "Fine"], category: "daily", difficulty: "easy" },
+    { french: "Mal", english: ["Bad", "Badly", "Poor"], category: "daily", difficulty: "easy" },
+    { french: "Jour", english: ["Day"], category: "daily", difficulty: "easy" },
+    { french: "Nuit", english: ["Night"], category: "daily", difficulty: "easy" },
+    { french: "Matin", english: ["Morning"], category: "daily", difficulty: "easy" },
+    { french: "Après-midi", english: ["Afternoon"], category: "daily", difficulty: "medium" },
+    { french: "Soir", english: ["Evening"], category: "daily", difficulty: "easy" },
+    { french: "Semaine", english: ["Week"], category: "daily", difficulty: "easy" },
+    { french: "Mois", english: ["Month"], category: "daily", difficulty: "easy" },
+    { french: "Année", english: ["Year"], category: "daily", difficulty: "easy", difficulty: "easy" },
+    { french: "Hier", english: ["Yesterday"], category: "daily", difficulty: "easy" },
+    { french: "Aujourd'hui", english: ["Today"], category: "daily", difficulty: "medium" },
+    { french: "Demain", english: ["Tomorrow"], category: "daily", difficulty: "easy" },
+    { french: "Maison", english: ["House", "Home"], category: "daily", difficulty: "easy" },
+    { french: "Bureau", english: ["Office", "Desk"], category: "daily", difficulty: "easy" },
+    { french: "École", english: ["School"], category: "daily", difficulty: "easy" },
+    { french: "Restaurant", english: ["Restaurant"], category: "daily", difficulty: "medium" },
+    { french: "Hôtel", english: ["Hotel"], category: "daily", difficulty: "easy" },
+    { french: "Gare", english: ["Train station"], category: "daily", difficulty: "medium" },
+    { french: "Aéroport", english: ["Airport"], category: "daily", difficulty: "medium" },
+    { french: "Rue", english: ["Street"], category: "daily", difficulty: "easy" },
+    { french: "Route", english: ["Road", "Way"], category: "daily", difficulty: "easy" },
+    { french: "Ville", english: ["City", "Town"], category: "daily", difficulty: "easy" },
+    { french: "Pays", english: ["Country"], category: "daily", difficulty: "easy" },
+    { french: "Eau", english: ["Water"], category: "daily", difficulty: "easy" },
+    { french: "Pain", english: ["Bread"], category: "daily", difficulty: "easy" },
+    { french: "Lait", english: ["Milk"], category: "daily", difficulty: "easy" },
+    { french: "Fromage", english: ["Cheese"], category: "daily", difficulty: "medium" },
+    { french: "Viande", english: ["Meat"], category: "daily", difficulty: "easy" },
+    { french: "Poisson", english: ["Fish"], category: "daily", difficulty: "easy" },
+    { french: "Légume", english: ["Vegetable"], category: "daily", difficulty: "medium" },
+    { french: "Fruit", english: ["Fruit"], category: "daily", difficulty: "easy" },
+    { french: "Café", english: ["Coffee"], category: "daily", difficulty: "easy" },
+    { french: "Thé", english: ["Tea"], category: "daily", difficulty: "easy" },
+    { french: "Vin", english: ["Wine"], category: "daily", difficulty: "easy" },
+    { french: "Bière", english: ["Beer"], category: "daily", difficulty: "easy" },
+    { french: "Assiette", english: ["Plate", "Dish"], category: "daily", difficulty: "medium" },
+    { french: "Verre", english: ["Glass"], category: "daily", difficulty: "easy" },
+    { french: "Cuillère", english: ["Spoon"], category: "daily", difficulty: "medium" },
+    { french: "Fourchette", english: ["Fork"], category: "daily", difficulty: "medium" },
+    { french: "Couteau", english: ["Knife"], category: "daily", difficulty: "easy" },
+    { french: "Voiture", english: ["Car", "Vehicle"], category: "daily", difficulty: "easy" },
+    { french: "Vélo", english: ["Bicycle", "Bike"], category: "daily", difficulty: "easy" },
+    { french: "Bus", english: ["Bus", "Coach"], category: "daily", difficulty: "easy" },
+    { french: "Train", english: ["Train"], category: "daily", difficulty: "easy" },
+    { french: "Avion", english: ["Airplane", "Plane"], category: "daily", difficulty: "easy" },
+    { french: "Bateau", english: ["Boat", "Ship"], category: "daily", difficulty: "easy" },
+    { french: "Taxi", english: ["Taxi"], category: "daily", difficulty: "easy" },
+    { french: "Chat", english: ["Cat"], category: "daily", difficulty: "easy" },
+    { french: "Chien", english: ["Dog"], category: "daily", difficulty: "easy" },
+    { french: "Oiseau", english: ["Bird"], category: "daily", difficulty: "easy" },
+    { french: "Arbre", english: ["Tree"], category: "daily", difficulty: "easy" },
+    { french: "Fleur", english: ["Flower"], category: "daily", difficulty: "easy" },
+    { french: "Montagne", english: ["Mountain"], category: "daily", difficulty: "medium" },
+    { french: "Fleuve", english: ["River"], category: "daily", difficulty: "easy" },
+    { french: "Mer", english: ["Sea"], category: "daily", difficulty: "easy" },
+    { french: "Plage", english: ["Beach"], category: "daily", difficulty: "easy" },
+    { french: "Soleil", english: ["Sun", "Sunshine"], category: "daily", difficulty: "easy" },
+    { french: "Lune", english: ["Moon"], category: "daily", difficulty: "easy" },
+    { french: "Étoile", english: ["Star"], category: "daily", difficulty: "easy" },
+    { french: "Pluie", english: ["Rain"], category: "daily", difficulty: "easy" },
+    { french: "Neige", english: ["Snow"], category: "daily", difficulty: "easy" },
+    { french: "Vent", english: ["Wind"], category: "daily", difficulty: "easy" },
+    { french: "Orage", english: ["Storm", "Thunderstorm"], category: "daily", difficulty: "easy" },
+    { french: "Chaud", english: ["Hot", "Warm"], category: "daily", difficulty: "easy" },
+    { french: "Froid", english: ["Cold"], category: "daily", difficulty: "easy" },
+    { french: "Humide", english: ["Wet", "Damp"], category: "daily", difficulty: "easy" },
+    { french: "Sec", english: ["Dry"], category: "daily", difficulty: "easy" },
+    { french: "Grand", english: ["Big", "Large"], category: "daily", difficulty: "easy" },
+    { french: "Petit", english: ["Small", "Little"], category: "daily", difficulty: "easy" },
+    { french: "Long", english: ["Long"], category: "daily", difficulty: "easy" },
+    { french: "Court", english: ["Short"], category: "daily", difficulty: "easy" },
+    { french: "Épais", english: ["Thick"], category: "daily", difficulty: "easy" },
+    { french: "Mince", english: ["Thin"], category: "daily", difficulty: "easy" },
+    { french: "Lourd", english: ["Heavy"], category: "daily", difficulty: "easy" },
+    { french: "Léger", english: ["Light"], category: "daily", difficulty: "easy" },
+    { french: "Fort", english: ["Strong"], category: "daily", difficulty: "easy" },
+    { french: "Faible", english: ["Weak"], category: "daily", difficulty: "easy" },
+    { french: "Rapide", english: ["Fast", "Quick"], category: "daily", difficulty: "easy" },
+    { french: "Lent", english: ["Slow"], category: "daily", difficulty: "easy" },
+    { french: "Cher", english: ["Expensive"], category: "daily", difficulty: "easy" },
+    { french: "Bon marché", english: ["Cheap"], category: "daily", difficulty: "medium" },
+    { french: "Nouveau", english: ["New"], category: "daily", difficulty: "easy" },
+    { french: "Vieux", english: ["Old"], category: "daily", difficulty: "easy" },
+    { french: "Jeune", english: ["Young"], category: "daily", difficulty: "easy" },
+    { french: "Beau", english: ["Beautiful", "Pretty"], category: "daily", difficulty: "easy" },
+    { french: "Laid", english: ["Ugly"], category: "daily", difficulty: "easy" },
+    { french: "Propre", english: ["Clean"], category: "daily", difficulty: "easy" },
+    { french: "Sale", english: ["Dirty", "Filthy"], category: "daily", difficulty: "easy" },
+    { french: "Heureux", english: ["Happy", "Glad"], category: "daily", difficulty: "easy" },
+    { french: "Triste", english: ["Sad"], category: "daily", difficulty: "easy" },
+    { french: "En colère", english: ["Angry"], category: "daily", difficulty: "medium" },
+    { french: "Fatigué", english: ["Tired", "Weary"], category: "daily", difficulty: "easy" },
+    { french: "Endormi", english: ["Sleepy"], category: "daily", difficulty: "medium" },
+    { french: "Éveillé", english: ["Awake"], category: "daily", difficulty: "easy" },
+    { french: "Malade", english: ["Sick", "Ill"], category: "daily", difficulty: "easy" },
+    { french: "Sain", english: ["Healthy"], category: "daily", difficulty: "easy" },
+    { french: "Pain d'épice", english: ["Gingerbread"], category: "daily", difficulty: "hard" },
+    { french: "Chocolat", english: ["Chocolate"], category: "daily", difficulty: "medium" },
+    { french: "Sucre", english: ["Sugar"], category: "daily", difficulty: "easy" },
+    { french: "Sel", english: ["Salt"], category: "daily", difficulty: "easy" },
+    { french: "Poivre", english: ["Pepper"], category: "daily", difficulty: "easy" },
+    { french: "Huile", english: ["Oil"], category: "daily", difficulty: "easy" },
+    { french: "Beurre", english: ["Butter"], category: "daily", difficulty: "easy" },
+    { french: "Oeuf", english: ["Egg"], category: "daily", difficulty: "easy" },
+    { french: "Farine", english: ["Flour"], category: "daily", difficulty: "easy" },
 
     // Business & Management
-    { french: "Travailler", english: ["Work", "To work"], category: "business" },
-    { french: "Réunion", english: ["Meeting"], category: "business" },
-    { french: "Projet", english: ["Project"], category: "business" },
-    { french: "Gestionnaire", english: ["Manager"], category: "business" },
-    { french: "Équipe", english: ["Team"], category: "business" },
-    { french: "Entreprise", english: ["Company", "Business"], category: "business" },
-    { french: "Employé", english: ["Employee"], category: "business" },
-    { french: "Employeur", english: ["Employer"], category: "business" },
-    { french: "Patron", english: ["Boss", "Manager"], category: "business" },
-    { french: "Directeur", english: ["Director", "Manager"], category: "business" },
-    { french: "Président", english: ["President", "CEO"], category: "business" },
-    { french: "Vice-président", english: ["Vice president"], category: "business" },
-    { french: "Secrétaire", english: ["Secretary"], category: "business" },
-    { french: "Comptable", english: ["Accountant"], category: "business" },
-    { french: "Ingénieur", english: ["Engineer"], category: "business" },
-    { french: "Architecte", english: ["Architect"], category: "business" },
-    { french: "Développeur", english: ["Developer"], category: "business" },
-    { french: "Programmeur", english: ["Programmer"], category: "business" },
-    { french: "Chercheur", english: ["Researcher"], category: "business" },
-    { french: "Consultant", english: ["Consultant"], category: "business" },
-    { french: "Vente", english: ["Sales", "Sale"], category: "business" },
-    { french: "Vendeur", english: ["Salesman", "Seller"], category: "business" },
-    { french: "Achat", english: ["Purchase", "Buying"], category: "business" },
-    { french: "Acheteur", english: ["Buyer"], category: "business" },
-    { french: "Marchandise", english: ["Goods", "Merchandise"], category: "business" },
-    { french: "Produit", english: ["Product"], category: "business" },
-    { french: "Service", english: ["Service"], category: "business" },
-    { french: "Client", english: ["Customer", "Client"], category: "business" },
-    { french: "Fournisseur", english: ["Supplier"], category: "business" },
-    { french: "Prix", english: ["Price", "Cost"], category: "business" },
-    { french: "Facteur", english: ["Invoice", "Factor"], category: "business" },
-    { french: "Devis", english: ["Quote", "Estimate"], category: "business" },
-    { french: "Contrat", english: ["Contract"], category: "business" },
-    { french: "Accord", english: ["Agreement", "Deal"], category: "business" },
-    { french: "Négociation", english: ["Negotiation"], category: "business" },
-    { french: "Délai", english: ["Deadline", "Delay"], category: "business" },
-    { french: "Livraison", english: ["Delivery"], category: "business" },
-    { french: "Expédition", english: ["Shipment"], category: "business" },
-    { french: "Transport", english: ["Transport", "Transportation"], category: "business" },
-    { french: "Logistique", english: ["Logistics"], category: "business" },
-    { french: "Entrepôt", english: ["Warehouse"], category: "business" },
-    { french: "Stock", english: ["Stock", "Inventory"], category: "business" },
-    { french: "Bilan", english: ["Balance sheet"], category: "business" },
-    { french: "Budget", english: ["Budget"], category: "business" },
-    { french: "Revenu", english: ["Revenue", "Income"], category: "business" },
-    { french: "Dépense", english: ["Expense"], category: "business" },
-    { french: "Bénéfice", english: ["Profit"], category: "business" },
-    { french: "Perte", english: ["Loss"], category: "business" },
-    { french: "Investissement", english: ["Investment"], category: "business" },
-    { french: "Emprunt", english: ["Loan", "Borrowing"], category: "business" },
-    { french: "Prêt", english: ["Loan"], category: "business" },
-    { french: "Intérêt", english: ["Interest"], category: "business" },
-    { french: "Banque", english: ["Bank"], category: "business" },
-    { french: "Compte", english: ["Account"], category: "business" },
-    { french: "Paiement", english: ["Payment"], category: "business" },
-    { french: "Salaire", english: ["Salary", "Wage"], category: "business" },
-    { french: "Bonus", english: ["Bonus"], category: "business" },
-    { french: "Promotion", english: ["Promotion"], category: "business" },
-    { french: "Congé", english: ["Leave", "Time off"], category: "business" },
-    { french: "Vacances", english: ["Vacation", "Holiday"], category: "business" },
-    { french: "Démission", english: ["Resignation"], category: "business" },
-    { french: "Licenciement", english: ["Dismissal", "Layoff"], category: "business" },
-    { french: "Embauche", english: ["Hiring"], category: "business" },
-    { french: "Candidat", english: ["Candidate"], category: "business" },
-    { french: "CV", english: ["Resume", "CV"], category: "business" },
-    { french: "Entretien", english: ["Interview"], category: "business" },
-    { french: "Appel d'offres", english: ["Call for bids", "Tender"], category: "business" },
-    { french: "Marché", english: ["Market"], category: "business" },
-    { french: "Stratégie", english: ["Strategy"], category: "business" },
-    { french: "Objectif", english: ["Objective", "Goal"], category: "business" },
-    { french: "Plan", english: ["Plan"], category: "business" },
-    { french: "Exécution", english: ["Execution", "Implementation"], category: "business" },
-    { french: "Contrôle qualité", english: ["Quality control"], category: "business" },
-    { french: "Production", english: ["Production"], category: "business" },
-    { french: "Fabrication", english: ["Manufacturing"], category: "business" },
-    { french: "Amélioration", english: ["Improvement"], category: "business" },
-    { french: "Efficacité", english: ["Efficiency"], category: "business" },
-    { french: "Productivité", english: ["Productivity"], category: "business" },
-    { french: "Risque", english: ["Risk"], category: "business" },
-    { french: "Assurance", english: ["Insurance"], category: "business" },
-    { french: "Impôt", english: ["Tax"], category: "business" },
-    { french: "Douane", english: ["Customs"], category: "business" },
-    { french: "Conformité", english: ["Compliance"], category: "business" },
-    { french: "Légalement", english: ["Legally"], category: "business" },
-    { french: "Légal", english: ["Legal"], category: "business" },
-    { french: "Illégal", english: ["Illegal"], category: "business" },
-    { french: "Responsabilité", english: ["Responsibility"], category: "business" },
-    { french: "Compétence", english: ["Competence", "Skill"], category: "business" },
-    { french: "Formation", english: ["Training"], category: "business" },
-    { french: "Développement", english: ["Development"], category: "business" },
-    { french: "Innovation", english: ["Innovation"], category: "business" },
-    { french: "Technologie", english: ["Technology"], category: "business" },
-    { french: "Numérique", english: ["Digital"], category: "business" },
-    { french: "Informatique", english: ["IT", "Computing"], category: "business" },
-    { french: "Logiciel", english: ["Software"], category: "business" },
-    { french: "Matériel", english: ["Hardware"], category: "business" },
-    { french: "Réseau", english: ["Network"], category: "business" },
-    { french: "Serveur", english: ["Server"], category: "business" },
-    { french: "Base de données", english: ["Database"], category: "business" },
-    { french: "Cyber-sécurité", english: ["Cybersecurity"], category: "business" },
-    { french: "Communication", english: ["Communication"], category: "business" },
-    { french: "Rapport", english: ["Report"], category: "business" },
-    { french: "Documentation", english: ["Documentation"], category: "business" },
-    { french: "Archivage", english: ["Archival", "Filing"], category: "business" },
-    { french: "Mémorandum", english: ["Memo"], category: "business" },
-    { french: "Email", english: ["Email"], category: "business" },
-    { french: "Présentation", english: ["Presentation"], category: "business" },
-    { french: "Affiche", english: ["Poster"], category: "business" },
-    { french: "Brochure", english: ["Brochure"], category: "business" },
-    { french: "Marketing", english: ["Marketing"], category: "business" },
-    { french: "Publicité", english: ["Advertising"], category: "business" },
-    { french: "Marque", english: ["Brand"], category: "business" },
-    { french: "Logo", english: ["Logo"], category: "business" },
-    { french: "Clientèle", english: ["Customer base"], category: "business" },
-    { french: "Fidélité", english: ["Loyalty"], category: "business" },
-    { french: "Partenariat", english: ["Partnership"], category: "business" },
+    { french: "Travailler", english: ["Work", "To work"], category: "business", difficulty: "medium" },
+    { french: "Réunion", english: ["Meeting"], category: "business", difficulty: "medium" },
+    { french: "Projet", english: ["Project"], category: "business", difficulty: "medium" },
+    { french: "Gestionnaire", english: ["Manager"], category: "business", difficulty: "hard" },
+    { french: "Équipe", english: ["Team"], category: "business", difficulty: "easy" },
+    { french: "Entreprise", english: ["Company", "Business"], category: "business", difficulty: "hard" },
+    { french: "Employé", english: ["Employee"], category: "business", difficulty: "medium" },
+    { french: "Employeur", english: ["Employer"], category: "business", difficulty: "medium" },
+    { french: "Patron", english: ["Boss", "Manager"], category: "business", difficulty: "easy" },
+    { french: "Directeur", english: ["Director", "Manager"], category: "business", difficulty: "medium" },
+    { french: "Président", english: ["President", "CEO"], category: "business", difficulty: "medium" },
+    { french: "Vice-président", english: ["Vice president"], category: "business", difficulty: "hard" },
+    { french: "Secrétaire", english: ["Secretary"], category: "business", difficulty: "medium" },
+    { french: "Comptable", english: ["Accountant"], category: "business", difficulty: "medium" },
+    { french: "Ingénieur", english: ["Engineer"], category: "business", difficulty: "medium" },
+    { french: "Architecte", english: ["Architect"], category: "business", difficulty: "medium" },
+    { french: "Développeur", english: ["Developer"], category: "business", difficulty: "hard" },
+    { french: "Programmeur", english: ["Programmer"], category: "business", difficulty: "hard" },
+    { french: "Chercheur", english: ["Researcher"], category: "business", difficulty: "medium" },
+    { french: "Consultant", english: ["Consultant"], category: "business", difficulty: "medium" },
+    { french: "Vente", english: ["Sales", "Sale"], category: "business", difficulty: "easy" },
+    { french: "Vendeur", english: ["Salesman", "Seller"], category: "business", difficulty: "easy" },
+    { french: "Achat", english: ["Purchase", "Buying"], category: "business", difficulty: "easy" },
+    { french: "Acheteur", english: ["Buyer"], category: "business", difficulty: "medium" },
+    { french: "Marchandise", english: ["Goods", "Merchandise"], category: "business", difficulty: "hard" },
+    { french: "Produit", english: ["Product"], category: "business", difficulty: "medium" },
+    { french: "Service", english: ["Service"], category: "business", difficulty: "easy" },
+    { french: "Client", english: ["Customer", "Client"], category: "business", difficulty: "easy" },
+    { french: "Fournisseur", english: ["Supplier"], category: "business", difficulty: "hard" },
+    { french: "Prix", english: ["Price", "Cost"], category: "business", difficulty: "easy" },
+    { french: "Facteur", english: ["Invoice", "Factor"], category: "business", difficulty: "medium" },
+    { french: "Devis", english: ["Quote", "Estimate"], category: "business", difficulty: "easy" },
+    { french: "Contrat", english: ["Contract"], category: "business", difficulty: "medium" },
+    { french: "Accord", english: ["Agreement", "Deal"], category: "business", difficulty: "easy" },
+    { french: "Négociation", english: ["Negotiation"], category: "business", difficulty: "hard" },
+    { french: "Délai", english: ["Deadline", "Delay"], category: "business", difficulty: "easy" },
+    { french: "Livraison", english: ["Delivery"], category: "business", difficulty: "medium" },
+    { french: "Expédition", english: ["Shipment"], category: "business", difficulty: "medium" },
+    { french: "Transport", english: ["Transport", "Transportation"], category: "business", difficulty: "medium" },
+    { french: "Logistique", english: ["Logistics"], category: "business", difficulty: "hard" },
+    { french: "Entrepôt", english: ["Warehouse"], category: "business", difficulty: "medium" },
+    { french: "Stock", english: ["Stock", "Inventory"], category: "business", difficulty: "easy" },
+    { french: "Bilan", english: ["Balance sheet"], category: "business", difficulty: "hard" },
+    { french: "Budget", english: ["Budget"], category: "business", difficulty: "easy" },
+    { french: "Revenu", english: ["Revenue", "Income"], category: "business", difficulty: "easy" },
+    { french: "Dépense", english: ["Expense"], category: "business", difficulty: "medium" },
+    { french: "Bénéfice", english: ["Profit"], category: "business", difficulty: "medium" },
+    { french: "Perte", english: ["Loss"], category: "business", difficulty: "easy" },
+    { french: "Investissement", english: ["Investment"], category: "business", difficulty: "hard" },
+    { french: "Emprunt", english: ["Loan", "Borrowing"], category: "business", difficulty: "medium" },
+    { french: "Prêt", english: ["Loan"], category: "business", difficulty: "easy" },
+    { french: "Intérêt", english: ["Interest"], category: "business", difficulty: "medium" },
+    { french: "Banque", english: ["Bank"], category: "business", difficulty: "easy" },
+    { french: "Compte", english: ["Account"], category: "business", difficulty: "easy" },
+    { french: "Paiement", english: ["Payment"], category: "business", difficulty: "medium" },
+    { french: "Salaire", english: ["Salary", "Wage"], category: "business", difficulty: "easy" },
+    { french: "Bonus", english: ["Bonus"], category: "business", difficulty: "easy" },
+    { french: "Promotion", english: ["Promotion"], category: "business", difficulty: "medium" },
+    { french: "Congé", english: ["Leave", "Time off"], category: "business", difficulty: "easy" },
+    { french: "Vacances", english: ["Vacation", "Holiday"], category: "business", difficulty: "medium" },
+    { french: "Démission", english: ["Resignation"], category: "business", difficulty: "hard" },
+    { french: "Licenciement", english: ["Dismissal", "Layoff"], category: "business", difficulty: "hard" },
+    { french: "Embauche", english: ["Hiring"], category: "business", difficulty: "medium" },
+    { french: "Candidat", english: ["Candidate"], category: "business", difficulty: "medium" },
+    { french: "CV", english: ["Resume", "CV"], category: "business", difficulty: "easy" },
+    { french: "Entretien", english: ["Interview"], category: "business", difficulty: "medium" },
+    { french: "Appel d'offres", english: ["Call for bids", "Tender"], category: "business", difficulty: "hard" },
+    { french: "Marché", english: ["Market"], category: "business", difficulty: "easy" },
+    { french: "Stratégie", english: ["Strategy"], category: "business", difficulty: "medium" },
+    { french: "Objectif", english: ["Objective", "Goal"], category: "business", difficulty: "medium" },
+    { french: "Plan", english: ["Plan"], category: "business", difficulty: "easy" },
+    { french: "Exécution", english: ["Execution", "Implementation"], category: "business", difficulty: "hard" },
+    { french: "Contrôle qualité", english: ["Quality control"], category: "business", difficulty: "hard" },
+    { french: "Production", english: ["Production"], category: "business", difficulty: "medium" },
+    { french: "Fabrication", english: ["Manufacturing"], category: "business", difficulty: "hard" },
+    { french: "Amélioration", english: ["Improvement"], category: "business", difficulty: "hard" },
+    { french: "Efficacité", english: ["Efficiency"], category: "business", difficulty: "hard" },
+    { french: "Productivité", english: ["Productivity"], category: "business", difficulty: "hard" },
+    { french: "Risque", english: ["Risk"], category: "business", difficulty: "easy" },
+    { french: "Assurance", english: ["Insurance"], category: "business", difficulty: "medium" },
+    { french: "Impôt", english: ["Tax"], category: "business", difficulty: "easy" },
+    { french: "Douane", english: ["Customs"], category: "business", difficulty: "easy" },
+    { french: "Conformité", english: ["Compliance"], category: "business", difficulty: "hard" },
+    { french: "Légalement", english: ["Legally"], category: "business", difficulty: "medium" },
+    { french: "Légal", english: ["Legal"], category: "business", difficulty: "easy" },
+    { french: "Illégal", english: ["Illegal"], category: "business", difficulty: "medium" },
+    { french: "Responsabilité", english: ["Responsibility"], category: "business", difficulty: "hard" },
+    { french: "Compétence", english: ["Competence", "Skill"], category: "business", difficulty: "medium" },
+    { french: "Formation", english: ["Training"], category: "business", difficulty: "medium" },
+    { french: "Développement", english: ["Development"], category: "business", difficulty: "hard" },
+    { french: "Innovation", english: ["Innovation"], category: "business", difficulty: "medium" },
+    { french: "Technologie", english: ["Technology"], category: "business", difficulty: "hard" },
+    { french: "Numérique", english: ["Digital"], category: "business", difficulty: "medium" },
+    { french: "Informatique", english: ["IT", "Computing"], category: "business", difficulty: "hard" },
+    { french: "Logiciel", english: ["Software"], category: "business", difficulty: "medium" },
+    { french: "Matériel", english: ["Hardware"], category: "business", difficulty: "medium" },
+    { french: "Réseau", english: ["Network"], category: "business", difficulty: "easy" },
+    { french: "Serveur", english: ["Server"], category: "business", difficulty: "medium" },
+    { french: "Base de données", english: ["Database"], category: "business", difficulty: "hard" },
+    { french: "Cyber-sécurité", english: ["Cybersecurity"], category: "business", difficulty: "hard" },
+    { french: "Communication", english: ["Communication"], category: "business", difficulty: "hard" },
+    { french: "Rapport", english: ["Report"], category: "business", difficulty: "easy" },
+    { french: "Documentation", english: ["Documentation"], category: "business", difficulty: "hard" },
+    { french: "Archivage", english: ["Archival", "Filing"], category: "business", difficulty: "medium" },
+    { french: "Mémorandum", english: ["Memo"], category: "business", difficulty: "medium" },
+    { french: "Email", english: ["Email"], category: "business", difficulty: "easy" },
+    { french: "Présentation", english: ["Presentation"], category: "business", difficulty: "hard" },
+    { french: "Affiche", english: ["Poster"], category: "business", difficulty: "easy" },
+    { french: "Brochure", english: ["Brochure"], category: "business", difficulty: "medium" },
+    { french: "Marketing", english: ["Marketing"], category: "business", difficulty: "medium" },
+    { french: "Publicité", english: ["Advertising"], category: "business", difficulty: "hard" },
+    { french: "Marque", english: ["Brand"], category: "business", difficulty: "easy" },
+    { french: "Logo", english: ["Logo"], category: "business", difficulty: "easy" },
+    { french: "Clientèle", english: ["Customer base"], category: "business", difficulty: "hard" },
+    { french: "Fidélité", english: ["Loyalty"], category: "business", difficulty: "medium" },
+    { french: "Partenariat", english: ["Partnership"], category: "business", difficulty: "hard" },
 
     // Mining & Engineering
-    { french: "Charbon", english: ["Coal"], category: "mining" },
-    { french: "Mine", english: ["Mine"], category: "mining" },
-    { french: "Extracteur", english: ["Extraction", "Extractor"], category: "mining" },
-    { french: "Mineur", english: ["Miner"], category: "mining" },
-    { french: "Exploitation minière", english: ["Mining", "Mine operation"], category: "mining" },
-    { french: "Minerai", english: ["Ore"], category: "mining" },
-    { french: "Cuivre", english: ["Copper"], category: "mining" },
-    { french: "Or", english: ["Gold"], category: "mining" },
-    { french: "Argent", english: ["Silver"], category: "mining" },
-    { french: "Fer", english: ["Iron"], category: "mining" },
-    { french: "Étain", english: ["Tin"], category: "mining" },
-    { french: "Zinc", english: ["Zinc"], category: "mining" },
-    { french: "Plomb", english: ["Lead"], category: "mining" },
-    { french: "Aluminium", english: ["Aluminum"], category: "mining" },
-    { french: "Nickel", english: ["Nickel"], category: "mining" },
-    { french: "Cobalt", english: ["Cobalt"], category: "mining" },
-    { french: "Lithium", english: ["Lithium"], category: "mining" },
-    { french: "Diamant", english: ["Diamond"], category: "mining" },
-    { french: "Gemme", english: ["Gemstone"], category: "mining" },
-    { french: "Pierre", english: ["Stone"], category: "mining" },
+    { french: "Charbon", english: ["Coal"], category: "mining", difficulty: "easy" },
+    { french: "Mine", english: ["Mine"], category: "mining", difficulty: "easy" },
+    { french: "Extracteur", english: ["Extraction", "Extractor"], category: "mining", difficulty: "hard" },
+    { french: "Mineur", english: ["Miner"], category: "mining", difficulty: "easy" },
+    { french: "Exploitation minière", english: ["Mining", "Mine operation"], category: "mining", difficulty: "hard" },
+    { french: "Minerai", english: ["Ore"], category: "mining", difficulty: "medium" },
+    { french: "Cuivre", english: ["Copper"], category: "mining", difficulty: "easy" },
+    { french: "Or", english: ["Gold"], category: "mining", difficulty: "easy" },
+    { french: "Argent", english: ["Silver"], category: "mining", difficulty: "easy" },
+    { french: "Fer", english: ["Iron"], category: "mining", difficulty: "easy" },
+    { french: "Étain", english: ["Tin"], category: "mining", difficulty: "easy" },
+    { french: "Zinc", english: ["Zinc"], category: "mining", difficulty: "easy" },
+    { french: "Plomb", english: ["Lead"], category: "mining", difficulty: "easy" },
+    { french: "Aluminium", english: ["Aluminum"], category: "mining", difficulty: "medium" },
+    { french: "Nickel", english: ["Nickel"], category: "mining", difficulty: "easy" },
+    { french: "Cobalt", english: ["Cobalt"], category: "mining", difficulty: "easy" },
+    { french: "Lithium", english: ["Lithium"], category: "mining", difficulty: "medium" },
+    { french: "Diamant", english: ["Diamond"], category: "mining", difficulty: "medium" },
+    { french: "Gemme", english: ["Gemstone"], category: "mining", difficulty: "easy" },
+    { french: "Pierre", english: ["Stone"], category: "mining", difficulty: "easy" },
     { french: "Roche", english: ["Rock"], category: "mining" },
     { french: "Granit", english: ["Granite"], category: "mining" },
     { french: "Calcaire", english: ["Limestone"], category: "mining" },
@@ -791,6 +785,7 @@ const elements = {
     englishInput: document.getElementById("englishInput"),
     speakBtn: document.getElementById("speakBtn"),
     revealBtn: document.getElementById("revealBtn"),
+    reviseAllBtn: document.getElementById("reviseAllBtn"),
     nextBtn: document.getElementById("nextBtn"),
     prevBtn: document.getElementById("prevBtn"),
     resetBtn: document.getElementById("resetBtn"),
@@ -804,6 +799,118 @@ const elements = {
     scoreDisplay: document.getElementById("score"),
     progressBar: document.getElementById("progressBar"),
 };
+
+// ============================================================================
+// REVISE ALL FUNCTION
+// ============================================================================
+
+let isRevising = false;
+
+async function reviseAllWords() {
+    if (isRevising) return;
+    
+    isRevising = true;
+    const originalIndex = appState.currentIndex;
+    const vocab = appState.vocabulary;
+    
+    // Disable controls during revision
+    elements.englishInput.disabled = true;
+    elements.revealBtn.disabled = true;
+    elements.nextBtn.disabled = true;
+    elements.prevBtn.disabled = true;
+    elements.resetBtn.disabled = true;
+    elements.shuffleBtn.disabled = true;
+    elements.reviseAllBtn.disabled = true;
+    if (elements.speakBtn) elements.speakBtn.disabled = true;
+    
+    // Show message
+    showFeedback(true, "🔄 Starting revision mode... Press ESC to stop.");
+    
+    // Add ESC listener to stop revision
+    let stopRevision = false;
+    const escListener = (e) => {
+        if (e.key === "Escape") {
+            stopRevision = true;
+            showFeedback(false, "❌ Revision stopped.");
+        }
+    };
+    document.addEventListener("keydown", escListener);
+    
+    try {
+        for (let i = 0; i < vocab.length && !stopRevision; i++) {
+            appState.currentIndex = i;
+            const word = vocab[i];
+            const isFREn = appState.mode === "fr-en";
+            
+            // Show the prompt
+            displayWord();
+            await sleep(1500);
+            
+            if (stopRevision) break;
+            
+            // Show the answer
+            const answers = isFREn ? word.english : [word.french];
+            displayCorrectAnswers(answers);
+            elements.answerSection.classList.remove("hidden");
+            showFeedback(true, `✅ ${answers.join(" / ")}`);
+            
+            // Speak the answer
+            if ('speechSynthesis' in window) {
+                const textToSpeak = answers[0];
+                const lang = isFREn ? 'en-US' : 'fr-FR';
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = lang;
+                utterance.rate = 0.9;
+                
+                // Try to select a matching voice
+                const voices = speechSynthesis.getVoices();
+                const preferredVoice = voices.find(v => v.lang.startsWith(isFREn ? 'en' : 'fr'));
+                if (preferredVoice) utterance.voice = preferredVoice;
+                
+                speechSynthesis.speak(utterance);
+            }
+            
+            await sleep(3000);
+            
+            if (stopRevision) break;
+            
+            // Hide answer for next word
+            elements.answerSection.classList.add("hidden");
+            clearFeedback();
+        }
+        
+        if (!stopRevision) {
+            showFeedback(true, "✨ Revision complete! All words reviewed.");
+        }
+    } finally {
+        // Cleanup
+        document.removeEventListener("keydown", escListener);
+        isRevising = false;
+        
+        // Restore controls
+        elements.englishInput.disabled = false;
+        elements.revealBtn.disabled = false;
+        elements.nextBtn.disabled = false;
+        elements.prevBtn.disabled = false;
+        elements.resetBtn.disabled = false;
+        elements.shuffleBtn.disabled = false;
+        elements.reviseAllBtn.disabled = false;
+        if (elements.speakBtn) elements.speakBtn.disabled = false;
+        
+        // Return to original position
+        appState.currentIndex = originalIndex;
+        displayWord();
+        elements.answerSection.classList.add("hidden");
+        
+        setTimeout(() => {
+            clearFeedback();
+        }, 3000);
+    }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 // ============================================================================
 // INITIALIZATION
@@ -843,6 +950,9 @@ function attachEventListeners() {
     elements.prevBtn.addEventListener("click", previousWord);
     elements.resetBtn.addEventListener("click", resetTrainer);
     elements.shuffleBtn.addEventListener("click", shuffleVocabulary);
+    if (elements.reviseAllBtn) {
+        elements.reviseAllBtn.addEventListener("click", reviseAllWords);
+    }
 
     // Category filtering
     document.querySelectorAll(".filter-btn").forEach((btn) => {
