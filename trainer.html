@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Vocabulary Trainer</title>
+    <link rel="stylesheet" href="trainer.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>📚 English Vocabulary Trainer</h1>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Word</span>
+                        <span class="stat-value" id="currentWord">1</span> / <span id="totalWords">10</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Score</span>
+                        <span class="stat-value" id="score">0</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+                    <!-- Category Filter -->
+                    <div class="category-filter">
+                        <p class="filter-label">Filter by Category:</p>
+                        <div class="mode-toggle">
+                            <button class="mode-btn active" data-mode="fr-en">FR → EN</button>
+                            <button class="mode-btn" data-mode="en-fr">EN → FR</button>
+                        </div>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-category="all">All Words</button>
+                            <button class="filter-btn" data-category="daily">Daily</button>
+                            <button class="filter-btn" data-category="business">Business</button>
+                            <button class="filter-btn" data-category="mining">Mining</button>
+                            <button class="filter-btn" data-category="general">General</button>
+                            <button class="filter-btn" data-category="tech">Tech</button>
+                            <button class="filter-btn" data-category="travel">Travel</button>
+                            <button class="filter-btn" data-category="economy">Economy</button>
+                            <button class="filter-btn" data-category="meetings">Meetings</button>
+                            <button class="filter-btn" data-category="smalltalk">Small Talk</button>
+                            <button class="filter-btn" data-category="presentations">Presentations</button>
+                            <button class="filter-btn" data-category="engineering">Engineering</button>
+                        </div>
+                    </div>
+            <div class="card-container">
+                <!-- Prompt Display -->
+                <div class="card-section french-section">
+                    <p class="label" id="promptLabel">French Word</p>
+                    <h2 class="french-word" id="frenchWord">Bonjour</h2>
+                </div>
+
+                <!-- English Input Section -->
+                <div class="card-section input-section">
+                    <p class="label" id="inputLabel">Type the English translation</p>
+                    <div class="input-wrapper">
+                        <input 
+                            type="text" 
+                            id="englishInput" 
+                            class="english-input" 
+                            placeholder="Your answer..."
+                            autocomplete="off"
+                        >
+                        <button class="reveal-btn" id="revealBtn" title="Reveal answer">
+                            <span class="eye-icon">👁️</span>
+                        </button>
+                    </div>
+                    <p class="hint-text" id="hintText"></p>
+                </div>
+
+                <!-- Answer Display (Hidden by default) -->
+                <div class="card-section answer-section hidden" id="answerSection">
+                    <p class="label">Correct Answer(s)</p>
+                    <div class="correct-answers" id="correctAnswers"></div>
+                </div>
+
+                <!-- Feedback -->
+                <div class="feedback" id="feedback"></div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="button-group">
+                <button class="btn btn-secondary" id="prevBtn" disabled>← Previous</button>
+                <button class="btn btn-primary" id="nextBtn">Next →</button>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <button class="btn btn-small btn-secondary" id="resetBtn">🔄 Reset</button>
+                <button class="btn btn-small btn-info" id="shuffleBtn">🔀 Shuffle</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="trainer.js"></script>
+</body>
+</html>
